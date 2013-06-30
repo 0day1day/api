@@ -51,6 +51,17 @@
            <?php  
            
           if(isset($_POST['file'])) {
+              if ($_FILES["file"]["error"] > 0)
+  {
+  echo "Error: " . $_FILES["file"]["error"] . "<br>";
+  }
+else
+  {
+  echo "Upload: " . $_FILES["file"]["name"] . "<br>";
+  echo "Type: " . $_FILES["file"]["type"] . "<br>";
+  echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
+  echo "Stored in: " . $_FILES["file"]["tmp_name"];
+  }
             $file=$_POST['file'];
         //$version=$_POST['type'];
         
@@ -239,7 +250,7 @@ echo ' <table class="table table-bordered" width="500">
     </ul>
     <div class="tab-content">
         <div id="pane1" class="tab-pane active">
-            <form action="filescanner.php" method="POST" >
+            <form action="filescanner.php" method="POST" enctype="multipart/form-data" >
             <fieldset>
             <legend>File Scanner</legend>
             <label>Filename:</label>
