@@ -50,7 +50,7 @@
             
            <?php  
            
-          if(isset($_POST['file'])) {
+          if(isset($_FILES["file"]["name"])) {
               if ($_FILES["file"]["error"] > 0)
   {
   echo "Error: " . $_FILES["file"]["error"] . "<br>";
