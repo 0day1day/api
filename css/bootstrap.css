@@ -395,6 +395,24 @@ a:focus {
        -o-transition: border linear 0.2s, box-shadow linear 0.2s;
           transition: border linear 0.2s, box-shadow linear 0.2s;      
 }
+.spanmidv2 {
+  width: 430px;
+  padding: 12px;
+  height: 400px;
+  
+overflow:auto;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+          
+           -webkit-box-shadow:0 0 10px black; 
+    -moz-box-shadow: 0 0 10px black; 
+    box-shadow:0 0 10px black;
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;      
+}
 
 .spanmidv:hover {
     -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -449,7 +467,7 @@ a:focus {
 }
 .spanmidWHOIS {
     margin-left: 145px;
-  width: 610px;
+  width: 640px;
   padding: 10px;
   
   -webkit-border-radius: 6px;

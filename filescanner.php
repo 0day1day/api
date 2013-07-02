@@ -45,24 +45,37 @@
 
       <!-- Example row of columns -->
       <div class="row">
+       
           
-        <div class="spanmidv" >
+      
             
            <?php  
-           
+           error_reporting(0);
           if(isset($_FILES["file"]["name"])) {
+              echo ' <div class="spanmidv2" >';
               if ($_FILES["file"]["error"] > 0)
   {
   echo "Error: " . $_FILES["file"]["error"] . "<br>";
   }
 else
   {
+    echo "<legend>File Information</legend>";
   echo "Upload: " . $_FILES["file"]["name"] . "<br>";
   echo "Type: " . $_FILES["file"]["type"] . "<br>";
   echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-  echo "Stored in: " . $_FILES["file"]["tmp_name"];
+  echo "Stored in: " . $_FILES["file"]["tmp_name"]."<br>";
+  
+  move_uploaded_file($_FILES["file"]["tmp_name"],
+      "uploads/" . $_FILES["file"]["name"]);
+      echo "Moved to: " . "uploads/" . $_FILES["file"]["name"];
+      $file="uploads/".$_FILES["file"]["name"];
+      chmod($file, 0777);
   }
-            $file=$_POST['file'];
+            //$file1=$_FILES;
+           // $file1 = fopen($_FILES["file"]["tmp_name"],'rb');
+           // $file = fread($file1,$_FILES["file"]["size"]);
+            
+            
         //$version=$_POST['type'];
         
 require_once('VirusTotalApi.php');
@@ -126,7 +139,7 @@ $scanId = $api->getScanID($result); /* Can be used to check for the report later
 /* Get a file report. */
 $report = $api->getFileReport($scanId);
 $report1 = $api->getFileReport1($scanId);
-echo"<br><br><h2>File Report:</h2><br>";
+echo"<br><legend>File Report:</legend>";
 $k=0;
 $problem=0;
 $notproblem=0;
@@ -140,31 +153,43 @@ while($k<45) {
     $k++;
 }
 //$api->displayResult($report);
-            echo '<legend>'.$problem.'<-Problem<br> '.$notproblem.' <-not a problem</legend>';
-                echo ' <table class="table table-bordered" width="500">
+            echo '<span class="label label-success">Not A Virus: </span><span class="badge badge-success">'.$notproblem.'</span><br>
+                  <span class="label label-important">Virus File:  </span><span class="badge badge-important"> '.$problem.'</span></div>';
+              echo ' <div class="spanmidv2" >';
+            echo ' <table class="table table-bordered" width="430">
               <tbody>
               ';
                 for($i=0;$i<45;$i++){
                 echo '
                 <tr>
-                  <td>'.$viruslist[$i].'</td>
+                  <td>'.$viruslist[$i].'</td>';
+                
+                if($report1['report'][1][$viruslist[$i]]==NULL) {
+                    echo '
+                  <td align="right"><i class="icon-ok"></i></td>
+              </tr>';
+                } 
+                else {
+                    echo '
                   <td align="right">'.$report1['report'][1][$viruslist[$i]].'</td>
               </tr>';
                 }
+                }
+
+                 
+                
                echo '
               </tbody>
             </table>
-            
+            </div>
                 ';
                 
                 
-      
-   
-
           
           }
           
      else if(isset($_POST['url'])) {
+         echo '<div class="spanmidv2" >';
           
     require_once('VirusTotalApi.php');
 $api = new VirusTotalAPI('5bd09e6ed8284e3a7ef8c05a90deb3f77fbd6893b3a9545a734772e46d497e06');
@@ -210,7 +235,7 @@ $api = new VirusTotalAPI('5bd09e6ed8284e3a7ef8c05a90deb3f77fbd6893b3a9545a734772
                     "Minotaur", 
           );
           $url=$_POST['url'];
-echo "<h3>Result for URL:</h3><h4>".$url."</h4><br>";
+echo "<legend>Result for URL:</legend>URL: ".$url."<br><legend>Report Summary:</legend>";
 
 $result = $api->scanURL($url);
 $scanId = $api->getScanID($result); /* Can be used to check for the report later on. */
@@ -221,15 +246,42 @@ $scanId = $api->getScanID($result); /* Can be used to check for the report later
 $report = $api->getURLReport($url);
 $report1 = $api->getURLReport1($url);
 //$api->displayResult($report);
-echo ' <table class="table table-bordered" width="500">
+$k=0;
+$problem=0;
+$notproblem=0;
+while($k<45) {
+    if($report1['report'][1][$urllist[$k]]){
+        $problem++;
+    }
+    else
+        $notproblem++;
+    
+    $k++;
+}
+$notproblem=$notproblem*100/45;
+$problem=$problem*100/45;
+ echo '<span class="label label-success">Safe Link: </span><span class="badge badge-success">'.$notproblem.'%</span><br>
+                  <span class="label label-important">Malicious Link:  </span><span class="badge badge-important"> '.$problem.'%</span></div>';
+          
+
+
+echo '<div class="spanmidv2"><table class="table table-bordered" width="500">
               <tbody>
               ';
                 for($i=0;$i<39;$i++){
                 echo '
                 <tr>
-                  <td>'.$urllist[$i].'</td>
+                  <td>'.$urllist[$i].'</td>';
+                       if($report1['report'][1][$urllist[$i]]==NULL) {
+                    echo '
+                  <td align="right"><i class="icon-ok"></i></td>
+              </tr>';
+                } 
+                else {
+                    echo '
                   <td align="right">'.$report1['report'][1][$urllist[$i]].'</td>
               </tr>';
+                }
                 }
                echo '
               </tbody>
@@ -241,7 +293,7 @@ echo ' <table class="table table-bordered" width="500">
           
           else 
               {   echo'
-       
+        <div class="spanmidv" >
                     <ul class="nav nav-tabs">
     <li class="active">
     <a href="#pane1" data-toggle="tab">File Scanner</a>
@@ -256,8 +308,10 @@ echo ' <table class="table table-bordered" width="500">
             <label>Filename:</label>
             <input type="file" name="file"  />
             <br><br>
-            
-            <button type="submit" class="btn btn-danger">Submit &raquo;</button>
+                <div class="progress progress-striped active" id="changeme" style="display: none;">
+    <div class="bar" style="width: 100%; "></div>
+    </div>
+            <button type="submit" onclick="myfunction()" class="btn btn-danger">Submit &raquo;</button>
             </fieldset>
             </form>
         </div>
@@ -280,7 +334,7 @@ echo ' <table class="table table-bordered" width="500">
     </div>
 
         
-        </div>
+        </div> <!--row-->
           
         
           <br><br><br>

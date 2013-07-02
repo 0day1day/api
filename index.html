@@ -28,11 +28,11 @@
             <div class="container">
               <ul class="nav">
                 <li class="active"><a href="index.html">Home</a></li>
-                <li ><a href="#home" data-toggle="tab">Projects(NA)</a></li>
+                <li ><a href="#myModal" data-toggle="modal">Projects</a></li>
                 <li ><a href="#" onclick="window.location = 'service.html';" data-toggle="tab">Services</a></li>
-                <li><a href="#dropdown1" data-toggle="tab">Downloads(NA)</a></li>
-                <li><a href="#dropdown2" data-toggle="tab">About(NA)</a></li>
-                <li><a href="#" data-toggle="tab">Contact(NA)</a></li>
+                <li><a href="#myModal" data-toggle="modal">Downloads</a></li>
+                <li><a href="#myModal" data-toggle="modal">About</a></li>
+                 <li><a href="#myModal" data-toggle="modal">Contact</a></li>
               </ul>
                 
           
@@ -40,7 +40,18 @@
             </div>
           </div>
         </div><!-- /.navbar -->
-        
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Alert!</h3>
+</div>
+<div class="modal-body">
+<p>Project Out Of Scope</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>
+</div>
       <div id="myCarousel" class="carousel slide">
                 <ol class="carousel-indicators">
                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
